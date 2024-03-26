@@ -1,4 +1,4 @@
-const reviews = [
+const review = [
     {
     productName: "Product A",
     customerName: "John Doe",
@@ -24,5 +24,5 @@ const reviews = [
     stars: 3
     }
     ];
-    export default reviews;
+    export default review;
     
