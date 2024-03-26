@@ -5,7 +5,7 @@ function CartItem(props) {
 
   return (
     <div className="cart-item">
-      <img className="item-image" src={item.image} alt={item.name} />
+      <img className="item-image" src={item.image} alt={item.name} style={{ width: '250px', height: '250px' }}/>
       <p>{item.name}</p>
       <p>Price: ${item.price}</p>
       <p>Quantity: {item.quantity}</p>

@@ -18,7 +18,7 @@ function ProductItem(props) {
 
   return (
     <div className="product-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <img className='product-img' src={product.image} alt={product.name} />
+      <img className='product-img' src={product.image} alt={product.name} style={{ width: '250px', height: '250px' }}/>
       <p className='product-name'>{product.name}</p>
       <p className='product-price'>Price: ${product.price}</p>
       <button className="product-button" onClick={handleAddToCart}>Add to Cart</button>

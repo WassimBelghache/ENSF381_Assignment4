@@ -56,7 +56,6 @@ function ProductPage() {
       <div className="shop-interface"> {/* Changed from table to div */}
         <div className='products'><ProductList onAddToCart={handleAddToCart} /></div>
         <div className='cart'>
-          <h2 className='cart-header'>Shopping Cart</h2>
           <Cart cartItems={cartItems} onRemove={handleRemoveItem} />
         </div>
       </div>
