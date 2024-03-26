@@ -53,7 +53,7 @@ function ProductPage() {
   return (
     <div className="product-page">
       <Header />
-      <div className="shop-interface"> {/* Changed from table to div */}
+      <div className="shop-interface"> {}
         <div className='products'><ProductList onAddToCart={handleAddToCart} /></div>
         <div className='cart'>
           <Cart cartItems={cartItems} onRemove={handleRemoveItem} />
