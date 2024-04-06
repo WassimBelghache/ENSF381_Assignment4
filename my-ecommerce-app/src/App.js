@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import LoginPage from './component/LoginPage';
 import Homepage from './component/HomePage.js';
 import Productpage from './component/ProductPage.js';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
