@@ -74,7 +74,7 @@ const CustomSignupForm = ({ switchToLogin }) => {
           <input name="emailInput" type="email" placeholder="Email" required />
         </label>
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit">Sign up</button>
     </form>
   );
 };
