@@ -1,82 +1,115 @@
+/*
+=========================================================
+Name        : LoginPage.js
+Assignment  : Assignment 5
+Author(s)   : Svara Patel, Wassim Belghache
+Submission  : April 8, 2024
+=========================================================
+*/
+
 import React, { useState } from 'react';
 
-const CustomSignupForm = ({ switchToLogin }) => {
-  const [notification, setNotification] = useState({ message: '', type: '' });
+const SignupForm = ({ switchLogin }) => {
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    confirmPassword: '',
+    email: '',
+  });
+  const [formErrors, setFormErrors] = useState({ message: '' });
 
-  const handleFormSubmission = async (event) => {
-    event.preventDefault();
-    const { usernameInput, passwordInput, confirmPasswordInput, emailInput } = event.target.elements;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-    if (!usernameInput.value || !passwordInput.value || !confirmPasswordInput.value || !emailInput.value) {
-      setNotification({ message: 'All fields are required.', type: 'error' });
-      return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let errorMessage = '';
+
+    if (!formData.username.trim() || !formData.password.trim() || !formData.confirmPassword.trim() || !formData.email.trim()) {
+      errorMessage = 'All fields are required!';
+    } else if (formData.password !== formData.confirmPassword) {
+      errorMessage = 'Passwords do not match!';
     }
 
-    if (passwordInput.value !== confirmPasswordInput.value) {
-      setNotification({ message: 'Passwords do not match.', type: 'error' });
-      return;
-    }
+    setFormErrors({ message: errorMessage });
 
-    try {
-      const response = await fetch('http://localhost:5000/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: usernameInput.value,
-          password: passwordInput.value,
-          email: emailInput.value,
-        }),
-      });
+    if (!errorMessage) {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to sign up.');
+        if (response.ok) {
+          const data = await response.json();
+          // Assuming the server sends back a message upon successful signup
+          setFormErrors({ message: data.message });
+        } else if (response.status === 400) {
+          const data = await response.json();
+          setFormErrors({ message: data.message });
+        } else {
+          throw new Error('Signup failed');
+        }
+      } catch (error) {
+        setFormErrors({ message: 'An error occurred during signup. Please try again later.' });
       }
-
-      setNotification({ message: 'User signed up successfully!', type: 'success' });
-    } catch (error) {
-      console.error('Error:', error);
-      setNotification({ message: error.message, type: 'error' });
     }
   };
 
   return (
-    <form onSubmit={handleFormSubmission}>
-      {notification.message && (
-        <div style={{ color: notification.type === 'error' ? 'red' : 'green', marginBottom: '10px' }}>
-          {notification.message}
-        </div>
-      )}
-      <div>
-        <label>
-          Username:
-          <input name="usernameInput" type="text" placeholder="Username" required />
-        </label>
-      </div>
-      <div>
-        <label>
-          Password:
-          <input name="passwordInput" type="password" placeholder="Password" required />
-        </label>
-      </div>
-      <div>
-        <label>
-          Confirm Password:
-          <input name="confirmPasswordInput" type="password" placeholder="Confirm Password" required />
-        </label>
-      </div>
-      <div>
-        <label>
-          Email:
-          <input name="emailInput" type="email" placeholder="Email" required />
-        </label>
-      </div>
-      <button type="submit">Sign up</button>
-    </form>
+    <div>
+      <h2>Signup</h2>
+      {formErrors.message && <p className="error">{formErrors.message}</p>}
+      <form onSubmit={handleSubmit}> 
+        <label htmlFor="username">Username: </label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          placeholder="Enter your username" 
+          value={formData.username} 
+          onChange={handleChange} 
+        /><br />
+        <label htmlFor="password">Password: </label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          placeholder="Enter your password" 
+          value={formData.password} 
+          onChange={handleChange} 
+        /><br />
+        <label htmlFor="confirmPassword">Confirm Password: </label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          name="confirmPassword" 
+          placeholder="Confirm your password" 
+          value={formData.confirmPassword} 
+          onChange={handleChange} 
+        /><br />
+        <label htmlFor="email">Email: </label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          placeholder="Enter your Email" 
+          value={formData.email} 
+          onChange={handleChange} 
+        /><br />
+        <button type="submit">Signup</button><br />
+      </form>
+    </div>
   );
-};
+}
 
-export default CustomSignupForm;
+export default SignupForm;

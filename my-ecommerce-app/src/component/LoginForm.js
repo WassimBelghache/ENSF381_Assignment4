@@ -1,3 +1,12 @@
+/*
+=========================================================
+Name        : LoginPage.js
+Assignment  : Assignment 5
+Author(s)   : Svara Patel, Wassim Belghache
+Submission  : April 8, 2024
+=========================================================
+*/
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
